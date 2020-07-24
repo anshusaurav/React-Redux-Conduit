@@ -1,0 +1,473 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url("https://fonts.googleapis.com/css2?family=Blinker:wght@400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600;700&display=swap");
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1.5;
+  ::-webkit-scrollbar { display: none;}
+  overflow: -moz-scrollbars-none; 
+}
+
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+* {
+  ::-webkit-scrollbar { display: none;}
+  overflow: -moz-scrollbars-none;
+  box-sizing: border-box;
+  line-height: 1.5;
+  scrollbar-width: none;
+}
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  font-family: "IBM Plex Serif", serif;
+  // font-family: 'IBM Plex Serif', serif;
+}
+.header-nav {
+  display: flex;
+  flex-wrap: wrap;
+  h1 {
+    padding-left: 1rem;
+    font-size: 32px;
+    font-family: "IBM Plex Serif", serif;
+  }
+  justify-content: space-between;
+  ul {
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(144px, auto));
+    justify-content: space-around;
+    align-content: center;
+    li{
+      a {
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.469);
+      }
+    }
+    .nav-active{
+      
+        font-weight: bold;
+        background: rgba(189, 66, 216, 0.517);
+        padding: 4px 8px;
+        border-radius: 2px;
+     
+    }
+  }
+}
+.login-div {
+  width: 400px;
+  margin: 0 auto;
+  .login-div-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    margin-bottom: 1rem;
+  }
+  .login-input-div {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
+  }
+  .login-btn-div {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.hero-unsigned {
+  text-align: center;
+  background-color: #5CB85C;
+  padding: 0.5rem;
+  h2 {
+    font-size: 3.5rem;
+    font-weight: 400;
+  }
+  h5{
+    font-size: 2.5rem;
+    font-weight: 400;
+  }
+}
+
+.main-section {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 0.5rem;
+  .tabs-menu {
+    .pointing {
+      .segment {
+        padding: 0;
+        padding-right: 0;
+      }
+      .item {
+        font-weight: 500;
+        font-size: 1.25rem;
+        font-family: "IBM Plex Serif", serif;
+      }
+      .active {
+        font-weight: 500;
+        font-size: 1.25rem;
+        font-family: "IBM Plex Serif", serif;
+      }
+    }
+    
+    .bottom{
+      .buttons{
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        width: 100%;
+        // align-content: center;
+        .button{
+          margin:0  0.25rem; 
+
+          margin-bottom: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+.tags-section {
+  background-color: #f3f3f3;
+  // height:400px;
+  padding: 0.5rem;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // margin: 0 auto;
+  .tags-inner-div {
+    .tag-btn {
+      margin-bottom: 0.25rem;
+      border-radius: 8px;
+    }
+  }
+}
+.editor-form {
+  width: 80%;
+  margin: 0 auto;
+}
+.settings-form {
+  width: 60%;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+.profile-hero-section {
+  position: relative;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  // align-content: center;
+  height: 240px;
+  background-color: #333333;
+  h3 {
+    margin: 0;
+    color: white;
+  }
+  h4 {
+    margin: 0;
+    color: grey;
+  }
+  .profile-picture-div {
+    width: 144px;
+    height: 144px;
+
+    height: auto;
+    img {
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
+  .profile-settings-btn-div {
+    position: absolute;
+    bottom: 20px;
+    right: 60px;
+  }
+}
+.article-hero-section {
+  //   padding: 1rem;
+  height: 240px;
+  padding: 2rem 1rem;
+  background-color: #b6b6b6;
+  .article-title {
+    font-size: 32px;
+    color: white;
+    text-transform: capitalize;
+  }
+  .article-header-grid {
+    display: grid;
+    grid-template-columns: 220px auto;
+    // grid-gap: 0.5rem;
+    justify-content: start;
+    align-items: center;
+  }
+  .article-hero-btn-grp {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.1rem;
+  }
+  .ui.card,
+  .ui.cards > .card {
+    background: transparent;
+    color: white;
+  }
+}
+.article-details-div {
+  // margin: 0.5rem;
+  margin-bottom: 1rem 0.5rem;
+  border-bottom: 1px solid #f3f3f3;
+  .item {
+    margin-bottom: 0.5rem;
+    .content {
+      padding: 0 1em;
+      .description {
+        font-size: 20px;
+        margin: 1.25rem 0.5rem;
+      }
+    }
+  }
+}
+.profile-div {
+  .profile-articles {
+    margin-top: 1.5rem;
+    .bottom{
+      .buttons{
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        // align-content: center;
+        .button{
+          margin:0  0.25rem; 
+
+          margin-bottom: 0.25rem;
+        }
+      }
+    }
+    .pointing {
+      .item {
+        font-weight: 500;
+        font-size: 1.25rem;
+        font-family: "IBM Plex Serif", serif;
+      }
+      .active {
+        font-weight: 500;
+        font-size: 1.25rem;
+        font-family: "IBM Plex Serif", serif;
+      }
+    }
+  }
+}
+.article-div {
+  margin-top: 1.5rem;
+}
+.block {
+  display: block;
+}
+h2 {
+  text-align: center;
+}
+body .ui.card,
+body .ui.cards > .card {
+  box-shadow: none;
+}
+
+.small-article {
+  border-bottom: 1px solid #f3f3f3;
+  padding-bottom: 1.25rem;
+  .small-article-top{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+  .article-like-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.article-complete-div {
+  .ui.comments {
+    width: 60%;
+    margin: 0 auto;
+
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+}
+.items {
+  .small-article {
+
+    .card {
+      .content {
+        padding: 0 1rem;
+        padding-top: 1rem;
+        .image {
+          border-radius: 50%;
+        }
+        .header {
+          color: rgba(0, 0, 0, 0.4);
+          font-size: 16px !important;
+        }
+        .meta {
+          font-size: 14px !important;
+        }
+      }
+    }
+  }
+}
+.items {
+  .links-react {
+    .content {
+      padding: 0 1rem;
+      .header {
+        color: rgb(8, 9, 10);
+        font-size: 24px;
+        font-weight: 700;
+        text-transform: capitalize;
+        line-height: 2;
+        font-family: "Blinker", sans-serif;
+        letter-spacing: normal;
+      }
+      .description {
+        color: rgb(8, 9, 10);
+        color: rgba(8, 9, 10, 0.8);
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.75;
+        text-transform: capitalize;
+        font-family: "Blinker", sans-serif;
+        letter-spacing: normal;
+      }
+
+      .button {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 12px;
+        border: 1px solid #243a4c6f;
+      }
+    }
+  }
+}
