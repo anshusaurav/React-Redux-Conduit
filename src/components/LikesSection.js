@@ -1,20 +1,16 @@
 import React from "react";
-import { Button, Transition } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 class LikesSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isUpdated: false,
-      animation: "tada",
-      duration: 500,
-      visible: true,
+
       favorited: this.props.article.favorited,
       favoritesCount: this.props.article.favoritesCount,
     };
     this.handleClick = this.handleClick.bind(this);
   }
-  toggleVisibility = () =>
-    this.setState((prevState) => ({ visible: !prevState.visible }));
 
   async handleClick() {
     console.log(this.props.article);
@@ -85,13 +81,7 @@ class LikesSection extends React.Component {
     }
   }
   render() {
-    const {
-      favorited,
-      favoritesCount,
-      animation,
-      duration,
-      visible,
-    } = this.state;
+    const { favorited, favoritesCount } = this.state;
     const { currentUser } = this.props;
 
     return (

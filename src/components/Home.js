@@ -2,6 +2,9 @@ import React from "react";
 
 import HeroSection from "./HeroSection";
 import AsideTags from "./AsideTags";
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
+import { bindActionCreators } from "redux";
 
 import HomeTabsWithLoader from "./HomeTabsWithLoader";
 class Home extends React.Component {
@@ -55,7 +58,21 @@ class Home extends React.Component {
     );
   }
 }
-export default Home;
+const mapStateToProps = (state) => {
+  console.log("State: ", state);
+  console.log(Boolean(state.user.token), state.user.token);
+  return {
+    isLoggedIn: state.user.token ? true : false,
+    user: state.user,
+    isUpdated: state.isUpdated,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 /**
  * setting
  */
