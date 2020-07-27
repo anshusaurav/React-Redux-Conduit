@@ -29,6 +29,7 @@ class HomeTabsWithLoader extends React.Component {
   }
   async componentDidMount() {
     const { isLoggedIn, isTagClicked, selectedTag } = this.props;
+    console.log("isLoggedIn", isLoggedIn);
     const { start } = this.state;
     try {
       const response = await fetch(
@@ -38,7 +39,6 @@ class HomeTabsWithLoader extends React.Component {
         }
       );
       const data = await response.json();
-      // console.log(data);
       if (!data.errors) {
         this.setState({ globalArticles: data.articles });
         this.setState({ gACount: data.articlesCount });
@@ -46,21 +46,22 @@ class HomeTabsWithLoader extends React.Component {
     } catch (err) {
       console.error("Error:", err);
     }
-    if (isLoggedIn) {
+    if (this.props.user.token) {
       try {
+        const { token } = this.props.user;
         const response = await fetch(
           `https://conduit.productionready.io/api/articles/feed?limit=10&offset=${start}`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Token ${localStorage.token}`,
+              Authorization: `Token ${token}`,
             },
           }
         );
         const data = await response.json();
-        // console.log('feed', data);
         if (!data.errors) {
+          console.log(data.articles);
           this.setState({ fACount: data.articlesCount });
           this.setState({ feedArticles: data.articles });
         }
@@ -80,7 +81,6 @@ class HomeTabsWithLoader extends React.Component {
           }
         );
         const data = await response.json();
-        // console.log('tag', data);
         if (!data.errors) {
           this.setState({ tagArticles: data.articles });
           this.setState({ tACount: data.articlesCount });
@@ -93,10 +93,13 @@ class HomeTabsWithLoader extends React.Component {
   async componentDidUpdate(prevProps, prevState) {
     const { start } = this.state;
     const { selectedTag } = this.props;
-    if (prevProps.selectedTag !== selectedTag || prevState.start !== start) {
+    if (
+      prevProps.selectedTag !== selectedTag ||
+      prevState.start !== start ||
+      prevProps.isLoggedIn !== this.props.isLoggedIn
+    ) {
       this.setState({ tagArticles: null });
       try {
-        // console.log(localStorage.token);
         const response = await fetch(
           `https://conduit.productionready.io/api/articles?tag=${selectedTag}&limit=10&offset=${start}`,
           {
@@ -107,7 +110,6 @@ class HomeTabsWithLoader extends React.Component {
           }
         );
         const data = await response.json();
-        // console.log('tag', data);
         this.setState({ tagArticles: data.articles });
         this.setState({ tACount: data.articlesCount });
       } catch (err) {
@@ -123,7 +125,6 @@ class HomeTabsWithLoader extends React.Component {
           }
         );
         const data = await response.json();
-        // console.log(data);
         if (!data.errors) {
           this.setState({ globalArticles: data.articles });
           this.setState({ gACount: data.articlesCount });
@@ -145,7 +146,6 @@ class HomeTabsWithLoader extends React.Component {
           }
         );
         const data = await response.json();
-        // console.log('feed', data);
         if (!data.errors) {
           this.setState({ fACount: data.articlesCount });
           this.setState({ feedArticles: data.articles });
@@ -157,6 +157,7 @@ class HomeTabsWithLoader extends React.Component {
   }
   render() {
     let panes;
+    console.log("Props:", this.props);
     const { activeIndex } = this.props;
     const {
       isLoading,
@@ -167,7 +168,8 @@ class HomeTabsWithLoader extends React.Component {
       gACount,
       tACount,
     } = this.state;
-    const { selectedTag, isLoggedIn, isTagClicked, currentUser } = this.props;
+    const { selectedTag, isLoggedIn, isTagClicked, user } = this.props;
+    // console.log(this.props.user);
     if (isLoggedIn) {
       if (isTagClicked) {
         panes = [
@@ -175,10 +177,7 @@ class HomeTabsWithLoader extends React.Component {
             menuItem: "Your Feed",
             render: () => (
               <Tab.Pane>
-                <ArticleList
-                  articles={feedArticles}
-                  currentUser={currentUser}
-                />
+                <ArticleList articles={feedArticles} currentUser={user} />
                 <Pagination
                   totalSize={fACount}
                   handlePagination={this.handlePagination}
@@ -190,10 +189,7 @@ class HomeTabsWithLoader extends React.Component {
             menuItem: "Global Feed",
             render: () => (
               <Tab.Pane>
-                <ArticleList
-                  articles={globalArticles}
-                  currentUser={currentUser}
-                />
+                <ArticleList articles={globalArticles} currentUser={user} />
                 <Pagination
                   totalSize={gACount}
                   handlePagination={this.handlePagination}
@@ -205,7 +201,7 @@ class HomeTabsWithLoader extends React.Component {
             menuItem: `#${selectedTag}`,
             render: () => (
               <Tab.Pane>
-                <ArticleList articles={tagArticles} />
+                <ArticleList articles={tagArticles} currentUser={user} />
                 <Pagination
                   totalSize={tACount}
                   handlePagination={this.handlePagination}
@@ -220,7 +216,7 @@ class HomeTabsWithLoader extends React.Component {
             menuItem: "Your Feed",
             render: () => (
               <Tab.Pane>
-                <ArticleList articles={feedArticles} />
+                <ArticleList articles={feedArticles} currentUser={user} />
                 <Pagination
                   totalSize={fACount}
                   handlePagination={this.handlePagination}
@@ -232,7 +228,7 @@ class HomeTabsWithLoader extends React.Component {
             menuItem: "Global Feed",
             render: () => (
               <Tab.Pane>
-                <ArticleList articles={globalArticles} />
+                <ArticleList articles={globalArticles} currentUser={user} />
                 <Pagination
                   totalSize={gACount}
                   handlePagination={this.handlePagination}
@@ -300,6 +296,8 @@ class HomeTabsWithLoader extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
+  console.log("State: ", state);
+  console.log(Boolean(state.user.token), state.user.token);
   return {
     isLoggedIn: state.user.token ? true : false,
     user: state.user,

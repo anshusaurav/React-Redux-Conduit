@@ -5,7 +5,40 @@ class LikesSection extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
-  handleClick() {}
+  async handleClick() {
+    console.log(this.props.article);
+    const { favorited } = this.props.article;
+    console.log("clicked", favorited);
+    const url = `https://conduit.productionready.io/api/articles/${this.props.article.slug}/favorite`;
+
+    try {
+      let response;
+      if (favorited) {
+        response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${this.props.currentUser.token}`,
+          },
+        });
+      } else {
+        response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${this.props.currentUser.token}`,
+          },
+        });
+      }
+      let data = await response.json();
+      // console.log(data)
+      if (!data.error) {
+        // this.setState({ currentUser: data.user });
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  }
   render() {
     const { favorited, favoritesCount } = this.props.article;
     const { currentUser } = this.props;
@@ -29,7 +62,7 @@ class LikesSection extends React.Component {
               content={favoritesCount}
               icon="like"
               name="like"
-              color="red"
+              color="black"
               labelPosition="left"
               onClick={this.handleClick}
             />

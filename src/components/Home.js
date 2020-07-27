@@ -39,12 +39,10 @@ class Home extends React.Component {
         {!isLoggedIn && <HeroSection />}
         <section className="main-section">
           <HomeTabsWithLoader
-            isLoggedIn={isLoggedIn}
             isTagClicked={isTagClicked}
             selectedTag={selectedTag}
             handleChangeTab={this.handleChangeTab}
             activeIndex={this.state.activeIndex}
-            currentUser={this.props.currentUser}
             onUpdate={this.props.onUpdate}
           />
           <AsideTags
