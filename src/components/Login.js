@@ -1,75 +1,79 @@
-import React from 'react'
-import { Input, Button, Form, Message } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom'
+import React from "react";
+import { Input, Button, Form, Message } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
+import { bindActionCreators } from "redux";
 // import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 class Login extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { email: '', password: '', errorMsgs: null }
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onClickHandler = this.onClickHandler.bind(this)
+  constructor(props) {
+    super(props);
+    this.state = { email: "", password: "", errorMsgs: null };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onClickHandler = this.onClickHandler.bind(this);
   }
 
-  onChange (event) {
+  onChange(event) {
     const { name, value } = event.target;
     switch (name) {
-      case 'email':
-        this.setState({ email: value })
-        break
-      case 'password':
-        this.setState({ password: value })
-        break
+      case "email":
+        this.setState({ email: value });
+        break;
+      case "password":
+        this.setState({ password: value });
+        break;
       default:
-        console.log('We are out of targets.')
+        console.log("We are out of targets.");
     }
   }
 
-  onClickHandler (event) {
-    event.preventDefault()
-    this.props.history.push('/register')
+  onClickHandler(event) {
+    event.preventDefault();
+    this.props.history.push("/register");
   }
 
-  async onSubmit (event) {
-    event.preventDefault()
-    const { email, password } = this.state
-    const user = { user: { email, password } }
-    console.log(JSON.stringify(user))
+  async onSubmit(event) {
+    event.preventDefault();
+    const { email, password } = this.state;
+    const user = { user: { email, password } };
+    console.log(JSON.stringify(user));
 
     try {
       let response = await fetch(
-        'https://conduit.productionready.io/api/users/login',
+        "https://conduit.productionready.io/api/users/login",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
         }
-      )
+      );
       let data = await response.json();
       if (!data.errors) {
-        this.props.onLogin()
-        localStorage.setItem('token', data.user.token)
-        this.props.history.push('/')
+        // this.props.onLogin();
+        this.props.actions.fetchUser(data.user);
+        localStorage.setItem("token", data.user.token);
+        this.props.history.push("/");
       } else {
-        const errors = []
+        const errors = [];
         for (const [key, value] of Object.entries(data.errors)) {
-          errors.push(`${key} ${value}`)
+          errors.push(`${key} ${value}`);
         }
         this.setState({ errorMsgs: errors });
       }
     } catch (err) {
-      this.setState({ errorMsg: err })
-      console.error('Error:', err)
+      this.setState({ errorMsg: err });
+      console.error("Error:", err);
     }
   }
 
-  render () {
+  render() {
     const { errorMsgs } = this.state;
     return (
-      <div className='login-div'>
-        <div className='login-div-header'>
+      <div className="login-div">
+        <div className="login-div-header">
           <h2>Sign In</h2>
           <div>
             <Button positive onClick={this.onClickHandler}>
@@ -77,30 +81,42 @@ class Login extends React.Component {
             </Button>
           </div>
         </div>
-        <Form className='login-input-div' onSubmit={this.onSubmit}>
+        <Form className="login-input-div" onSubmit={this.onSubmit}>
           <Input
-            size='large'
-            name='email'
-            type='email'
-            placeholder='email'
+            size="large"
+            name="email"
+            type="email"
+            placeholder="email"
             onChange={this.onChange}
           />
           <Input
-            size='large'
-            name='password'
-            type='password'
-            placeholder='password'
+            size="large"
+            name="password"
+            type="password"
+            placeholder="password"
             onChange={this.onChange}
           />
           {errorMsgs &&
-            errorMsgs.map((msg,index) => <Message key={index} color='red'>{msg}</Message>)}
-          <div className='login-btn-div'>
+            errorMsgs.map((msg, index) => (
+              <Message key={index} color="red">
+                {msg}
+              </Message>
+            ))}
+          <div className="login-btn-div">
             <Button secondary>Sign In</Button>
-           
           </div>
         </Form>
       </div>
-    )
+    );
   }
 }
-export default withRouter(Login)
+const mapStateToProps = (state) => {
+  return state;
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

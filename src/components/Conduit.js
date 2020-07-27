@@ -6,6 +6,9 @@ import {
   Link,
   NavLink,
 } from "react-router-dom";
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
+import { bindActionCreators } from "redux";
 
 import Login from "./Login";
 import Register from "./Register";
@@ -20,7 +23,7 @@ class Conduit extends React.Component {
     super(props);
     if (localStorage.token) {
       this.state = {
-        isLoggedIn: true,
+        // isLoggedIn: true,
         isTagClicked: false,
         topTwentyTags: null,
         currentUser: null,
@@ -30,7 +33,7 @@ class Conduit extends React.Component {
       };
     } else {
       this.state = {
-        isLoggedIn: false,
+        // isLoggedIn: false,
         isTagClicked: false,
         topTwentyTags: null,
         currentUser: null,
@@ -58,7 +61,8 @@ class Conduit extends React.Component {
     } catch (err) {
       console.error("Error:", err);
     }
-    if (this.state.isLoggedIn) {
+    if (localStorage.getItem("token")) {
+      console.log("HERE");
       const { token } = localStorage;
       try {
         let response = await fetch(
@@ -74,7 +78,7 @@ class Conduit extends React.Component {
         let data = await response.json();
         // console.log(data)
         if (!data.error) {
-          this.setState({ currentUser: data.user });
+          this.props.actions.fetchUser(data.user);
         }
       } catch (err) {
         console.error("Error:", err);
@@ -106,7 +110,6 @@ class Conduit extends React.Component {
     }
   }
   onUpdate(boolean) {
-    console.log("Suny old ");
     this.setState({ isUpdated: boolean });
   }
 
@@ -127,7 +130,6 @@ class Conduit extends React.Component {
   }
 
   render() {
-    // console.log(this.state);
     return (
       <Router>
         <div className="container">
@@ -189,20 +191,18 @@ class Conduit extends React.Component {
           <Switch>
             <Route exact path="/">
               <Home
-                isLoggedIn={this.state.isLoggedIn}
                 isTagClicked={this.state.isTagClicked}
                 tags={this.state.topTwentyTags}
                 changeTag={this.onTagClicked}
                 selectedTag={this.state.selectedTag}
-                currentUser={this.state.currentUser}
                 onUpdate={this.onUpdate}
               />
             </Route>
             <Route path="/login">
-              <Login onLogin={this.onLogin} />
+              <Login />
             </Route>
             <Route path="/register">
-              <Register onLogin={this.onLogin} />
+              <Register />
             </Route>
             <Route path="/editor">
               <Editor />
@@ -225,5 +225,14 @@ class Conduit extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log(state);
+  return state;
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
 
-export default Conduit;
+export default connect(mapStateToProps, mapDispatchToProps)(Conduit);

@@ -1,140 +1,140 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { FullPageFormLoader, FullPageNormalLoader } from './Loader'
-import ArticleHero from './ArticleHero'
-import ArticleDetails from './ArticleDetails'
-import CommentList from './CommentList'
+import React from "react";
+import { withRouter } from "react-router-dom";
+import { FullPageFormLoader, FullPageNormalLoader } from "./Loader";
+import ArticleHero from "./ArticleHero";
+import ArticleDetails from "./ArticleDetails";
+import CommentList from "./CommentList";
 class IndividualArticle extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { article: null, comments: null, isUpdated: false }
-    this.handleUpdate = this.handleUpdate.bind(this)
+  constructor(props) {
+    super(props);
+    this.state = { article: null, comments: null, isUpdated: false };
+    this.handleUpdate = this.handleUpdate.bind(this);
 
-    this.handleDelete = this.handleDelete.bind(this)
+    this.handleDelete = this.handleDelete.bind(this);
   }
-  async componentDidMount () {
-    const path = this.props.history.location.pathname
-    const { token } = localStorage
+  async componentDidMount() {
+    const path = this.props.history.location.pathname;
+    const { token } = localStorage;
     try {
-      let response
+      let response;
       if (token) {
         response = await fetch(
           `https://conduit.productionready.io/api${path}`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Token ${token}`
-            }
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
           }
-        )
+        );
       } else {
         response = await fetch(
           `https://conduit.productionready.io/api${path}`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json'
-            }
+              "Content-Type": "application/json",
+            },
           }
-        )
+        );
       }
-      let data = await response.json()
+      let data = await response.json();
       if (!data.error) {
-        this.setState({ article: data.article })
+        this.setState({ article: data.article });
       }
     } catch (err) {
-      console.error('Error:', err)
+      console.error("Error:", err);
     }
     try {
-      let response
+      let response;
       if (token) {
         response = await fetch(
           `https://conduit.productionready.io/api${path}/comments`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Token ${token}`
-            }
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
           }
-        )
+        );
       } else {
         response = await fetch(
           `https://conduit.productionready.io/api${path}/comments`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json'
-            }
+              "Content-Type": "application/json",
+            },
           }
-        )
+        );
       }
-      let data = await response.json()
+      let data = await response.json();
       if (!data.error) {
-        this.setState({ comments: data.comments })
+        this.setState({ comments: data.comments });
       }
     } catch (err) {
-      console.error('Error:', err)
+      console.error("Error:", err);
     }
   }
-  handleUpdate (boolean) {
-    this.setState({ isUpdated: boolean })
+  handleUpdate(boolean) {
+    this.setState({ isUpdated: boolean });
   }
-  handleDelete () {
-    this.props.history.push('/')
+  handleDelete() {
+    this.props.history.push("/");
   }
-  async componentDidUpdate (prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (this.state.isUpdated !== prevState.isUpdated) {
-      console.log('HERE')
+      console.log("HERE");
       try {
-        const path = this.props.history.location.pathname
-        const { token } = localStorage
-        let response
+        const path = this.props.history.location.pathname;
+        const { token } = localStorage;
+        let response;
         if (token) {
           response = await fetch(
             `https://conduit.productionready.io/api${path}/comments`,
             {
-              method: 'GET',
+              method: "GET",
               headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`
-              }
+                "Content-Type": "application/json",
+                Authorization: `Token ${token}`,
+              },
             }
-          )
+          );
         } else {
           response = await fetch(
             `https://conduit.productionready.io/api${path}/comments`,
             {
-              method: 'GET',
+              method: "GET",
               headers: {
-                'Content-Type': 'application/json'
-              }
+                "Content-Type": "application/json",
+              },
             }
-          )
+          );
         }
-        let data = await response.json()
+        let data = await response.json();
         if (!data.error) {
-          this.setState({ comments: data.comments })
+          this.setState({ comments: data.comments });
         }
       } catch (err) {
-        console.error('Error:', err)
+        console.error("Error:", err);
       }
     }
   }
-  render () {
-    const { article, comments } = this.state
-    let slug = ''
-    if (article) slug = article.slug
+  render() {
+    const { article, comments } = this.state;
+    let slug = "";
+    if (article) slug = article.slug;
     return (
-      <div className='article-complete-div'>
+      <div className="article-complete-div">
         {!article ? (
           <>
             <FullPageNormalLoader />
             <FullPageNormalLoader />
           </>
         ) : (
-          <div className='article-div'>
+          <div className="article-div">
             <ArticleHero
               article={article}
               currentUser={this.props.currentUser}
@@ -155,7 +155,7 @@ class IndividualArticle extends React.Component {
           />
         )}
       </div>
-    )
+    );
   }
 }
-export default withRouter(IndividualArticle)
+export default withRouter(IndividualArticle);
