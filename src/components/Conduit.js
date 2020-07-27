@@ -224,7 +224,6 @@ class Conduit extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state);
   return state;
 };
 const mapDispatchToProps = (dispatch) => {
