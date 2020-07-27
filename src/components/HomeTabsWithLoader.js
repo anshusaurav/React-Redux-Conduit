@@ -1,5 +1,8 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
+import { bindActionCreators } from "redux";
 import ArticleList from "./ArticleList";
 import Pagination from "./Pagination";
 class HomeTabsWithLoader extends React.Component {
@@ -296,4 +299,17 @@ class HomeTabsWithLoader extends React.Component {
     );
   }
 }
-export default HomeTabsWithLoader;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.user.token ? true : false,
+    user: state.user,
+    isUpdated: state.isUpdated,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeTabsWithLoader);

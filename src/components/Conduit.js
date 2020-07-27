@@ -26,7 +26,6 @@ class Conduit extends React.Component {
         // isLoggedIn: true,
         isTagClicked: false,
         topTwentyTags: null,
-        currentUser: null,
         selectedTag: null,
         homeSelectedTab: 0,
         isUpdated: false,
@@ -61,8 +60,8 @@ class Conduit extends React.Component {
     } catch (err) {
       console.error("Error:", err);
     }
-    if (localStorage.getItem("token")) {
-      console.log("HERE");
+    if (localStorage.token) {
+      // console.log("HERE");
       const { token } = localStorage;
       try {
         let response = await fetch(
@@ -78,6 +77,8 @@ class Conduit extends React.Component {
         let data = await response.json();
         // console.log(data)
         if (!data.error) {
+          // console.log("DATA USER");
+          // console.log(data.user);
           this.props.actions.fetchUser(data.user);
         }
       } catch (err) {
@@ -130,6 +131,7 @@ class Conduit extends React.Component {
   }
 
   render() {
+    console.log(this.props.user.user);
     return (
       <Router>
         <div className="container">
@@ -137,7 +139,7 @@ class Conduit extends React.Component {
             <h1>
               <Link to="/">conduit</Link>
             </h1>
-            {!this.state.isLoggedIn ? (
+            {!this.props.user.token ? (
               <ul>
                 <li>
                   <NavLink activeClassName="nav-active" to="/" exact={true}>
@@ -155,7 +157,7 @@ class Conduit extends React.Component {
                   </NavLink>
                 </li>
               </ul>
-            ) : this.state.currentUser ? (
+            ) : this.props.user ? (
               <ul>
                 <li>
                   <NavLink activeClassName="nav-active" to="/" exact={true}>
@@ -178,11 +180,10 @@ class Conduit extends React.Component {
                 <li>
                   <NavLink
                     activeClassName="nav-active"
-                    to={`/profiles/${this.state.currentUser.username}`}
+                    to={`/profiles/${this.props.user.username}`}
                   >
                     {" "}
-                    <Icon name="user" size="small" />{" "}
-                    {this.state.currentUser.username}
+                    <Icon name="user" size="small" /> {this.props.user.username}
                   </NavLink>
                 </li>
               </ul>
@@ -211,13 +212,10 @@ class Conduit extends React.Component {
               <Settings onLogout={this.onLogout} onUpdate={this.onUpdate} />
             </Route>
             <Route path="/profiles/:username">
-              <Profile
-                currentUser={this.state.currentUser}
-                onUpdate={this.onUpdate}
-              />
+              <Profile currentUser={this.props.user} onUpdate={this.onUpdate} />
             </Route>
             <Route path="/articles/:slug">
-              <IndividualArticle currentUser={this.state.currentUser} />
+              <IndividualArticle currentUser={this.props.user} />
             </Route>
           </Switch>
         </div>

@@ -6,3 +6,4 @@ export const REQUEST_LOGIN = "REQUEST_LOGIN";
 export const REQUEST_REGISTER = "REQUEST_REGISTER";
 export const REQUEST_TAGS = "REQUEST_TAGS";
 export const FETCH_USER = "FETCH_USER";
+export const UPDATE_USER = "UPDATE_USER";
