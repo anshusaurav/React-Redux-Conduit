@@ -16,7 +16,7 @@ class Home extends React.Component {
     this.handleAddTab = this.handleAddTab.bind(this);
   }
   handleChangeTab(activeIndex) {
-    console.log(activeIndex);
+    // console.log(activeIndex);
     this.setState({ activeIndex: activeIndex });
     // consosle.log)
   }
@@ -29,13 +29,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const {
-      isLoggedIn,
-      tags,
-      isTagClicked,
-      changeTag,
-      selectedTag,
-    } = this.props;
+    const { isLoggedIn, isTagClicked, changeTag, selectedTag } = this.props;
 
     return (
       <div>
@@ -49,7 +43,7 @@ class Home extends React.Component {
             onUpdate={this.props.onUpdate}
           />
           <AsideTags
-            tags={tags}
+            // tags={tags}
             changeTag={changeTag}
             handleAddTab={this.handleAddTab}
           />
@@ -59,8 +53,8 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("State: ", state);
-  console.log(Boolean(state.user.token), state.user.token);
+  // console.log("State: ", state);
+  // console.log(Boolean(state.user.token), state.user.token);
   return {
     isLoggedIn: state.user.token ? true : false,
     user: state.user,

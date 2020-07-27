@@ -2,6 +2,9 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { FullPageFormLoader } from "./Loader";
 import { Form, Button, TextArea, Input, Message } from "semantic-ui-react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
 class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -66,6 +69,7 @@ class Settings extends React.Component {
       console.log(data);
       if (!data.errors) {
         this.props.onUpdate(true);
+        this.props.actions.fetchUser(data.user);
       } else {
         const errors = [];
         for (const [key, value] of Object.entries(data.errors)) {
@@ -77,12 +81,12 @@ class Settings extends React.Component {
       console.error("Error:", err);
     }
   }
-  onLogOut(event) {
-    this.props.isLogged(false);
-    this.props.isUpdated(false);
+  onLogout(event) {
     localStorage.removeItem("token");
+    this.props.history.push("/");
+    this.props.actions.removeUser();
   }
-  async componentDidMount() {
+  async saveUser() {
     const { token } = localStorage;
     try {
       let response = await fetch(
@@ -108,12 +112,33 @@ class Settings extends React.Component {
       console.error("Error:", err);
     }
   }
-  onLogout(event) {
-    event.preventDefault();
-    localStorage.removeItem("token");
-    this.props.history.push("/");
-    this.props.onLogout();
+  async componentDidMount() {
+    const { token } = localStorage;
+    console.log("Token", token);
+    try {
+      let response = await fetch(
+        "https://conduit.productionready.io/api/user",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      let data = await response.json();
+      if (!data.error) {
+        this.setState({ email: data.user.email });
+        this.setState({ username: data.user.username });
+        this.setState({ bio: data.user.bio });
+        this.setState({ image: data.user.image });
+        this.setState({ isProfileLoaded: true });
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
   }
+
   render() {
     const {
       image,
@@ -191,5 +216,22 @@ class Settings extends React.Component {
     );
   }
 }
-//https://conduit.productionready.io/api/user
-export default withRouter(Settings);
+const mapStateToProps = (state) => {
+  console.log("State: ", state);
+  console.log(Boolean(state.user.token), state.user.token);
+  return {
+    isLoggedIn: state.user.token ? true : false,
+    user: state.user,
+    isUpdated: state.isUpdated,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Settings));

@@ -6,6 +6,12 @@ const actions = {
   updateUser: function () {
     return { type: types.UPDATE_USER };
   },
+  removeUser: function () {
+    return { type: types.REMOVE_USER };
+  },
+  fetchTags: function (payload) {
+    return { type: types.FETCH_TAGS, payload };
+  },
 };
 
 export default actions;

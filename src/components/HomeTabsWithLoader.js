@@ -29,7 +29,7 @@ class HomeTabsWithLoader extends React.Component {
   }
   async componentDidMount() {
     const { isLoggedIn, isTagClicked, selectedTag } = this.props;
-    console.log("isLoggedIn", isLoggedIn);
+    // console.log("isLoggedIn", isLoggedIn);
     const { start } = this.state;
     try {
       const response = await fetch(
@@ -48,7 +48,7 @@ class HomeTabsWithLoader extends React.Component {
     }
     if (this.props.user.token) {
       try {
-        const { token } = this.props.user;
+        const { token } = localStorage;
         const response = await fetch(
           `https://conduit.productionready.io/api/articles/feed?limit=10&offset=${start}`,
           {
@@ -135,13 +135,14 @@ class HomeTabsWithLoader extends React.Component {
 
       this.setState({ feedArticles: null });
       try {
+        const { token } = localStorage;
         const response = await fetch(
           `https://conduit.productionready.io/api/articles/feed?limit=10&offset=${start}`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Token ${localStorage.token}`,
+              Authorization: `Token ${token}`,
             },
           }
         );
@@ -157,7 +158,7 @@ class HomeTabsWithLoader extends React.Component {
   }
   render() {
     let panes;
-    console.log("Props:", this.props);
+    // console.log("Props:", this.props);
     const { activeIndex } = this.props;
     const {
       isLoading,
@@ -296,8 +297,8 @@ class HomeTabsWithLoader extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("State: ", state);
-  console.log(Boolean(state.user.token), state.user.token);
+  // console.log("State: ", state);
+  // console.log(Boolean(state.user.token), state.user.token);
   return {
     isLoggedIn: state.user.token ? true : false,
     user: state.user,

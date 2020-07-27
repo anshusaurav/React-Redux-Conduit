@@ -25,7 +25,7 @@ class Conduit extends React.Component {
       this.state = {
         // isLoggedIn: true,
         isTagClicked: false,
-        topTwentyTags: null,
+        // topTwentyTags: null,
         selectedTag: null,
         homeSelectedTab: 0,
         isUpdated: false,
@@ -34,7 +34,7 @@ class Conduit extends React.Component {
       this.state = {
         // isLoggedIn: false,
         isTagClicked: false,
-        topTwentyTags: null,
+        // topTwentyTags: null,
         currentUser: null,
         selectedTag: null,
         homeSelectedTab: 0,
@@ -55,8 +55,9 @@ class Conduit extends React.Component {
         }
       );
       const data = await response.json();
-      // console.log(data)
-      this.setState({ topTwentyTags: data.tags });
+      console.log("TAGS", data);
+      // this.setState({ topTwentyTags: data.tags });
+      this.props.actions.fetchTags(data.tags);
     } catch (err) {
       console.error("Error:", err);
     }
@@ -103,7 +104,7 @@ class Conduit extends React.Component {
         let data = await response.json();
         // console.log(data)
         if (!data.error) {
-          this.setState({ currentUser: data.user });
+          this.props.actions.fetchUser(data.user);
         }
       } catch (err) {
         console.error("Error:", err);
@@ -131,7 +132,7 @@ class Conduit extends React.Component {
   }
 
   render() {
-    console.log(this.props.user.user);
+    // console.log(this.props.user.user);
     return (
       <Router>
         <div className="container">
@@ -139,7 +140,7 @@ class Conduit extends React.Component {
             <h1>
               <Link to="/">conduit</Link>
             </h1>
-            {!this.props.user.token ? (
+            {!this.props.isLoggedIn ? (
               <ul>
                 <li>
                   <NavLink activeClassName="nav-active" to="/" exact={true}>
@@ -193,7 +194,7 @@ class Conduit extends React.Component {
             <Route exact path="/">
               <Home
                 isTagClicked={this.state.isTagClicked}
-                tags={this.state.topTwentyTags}
+                tags={this.props.tags}
                 changeTag={this.onTagClicked}
                 selectedTag={this.state.selectedTag}
                 onUpdate={this.onUpdate}
@@ -224,7 +225,12 @@ class Conduit extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    isLoggedIn: state.user.token ? true : false,
+    user: state.user,
+    isUpdated: state.isUpdated,
+    tags: state.tags,
+  };
 };
 const mapDispatchToProps = (dispatch) => {
   return {

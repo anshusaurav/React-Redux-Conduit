@@ -13,19 +13,19 @@ class LikesSection extends React.Component {
   }
 
   async handleClick() {
-    console.log(this.props.article);
+    // console.log(this.props.article);
     const { favorited } = this.state;
-    console.log("clicked", favorited);
     const url = `https://conduit.productionready.io/api/articles/${this.props.article.slug}/favorite`;
 
     try {
       let response;
+      const { token } = localStorage;
       if (favorited) {
         response = await fetch(url, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${this.props.currentUser.token}`,
+            Authorization: `Token ${token}`,
           },
         });
       } else {
@@ -33,7 +33,7 @@ class LikesSection extends React.Component {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${this.props.currentUser.token}`,
+            Authorization: `Token ${token}`,
           },
         });
       }
@@ -41,7 +41,7 @@ class LikesSection extends React.Component {
       // console.log(data)
       if (!data.error) {
         this.setState({ isUpdated: !this.state.isUpdated });
-        this.toggleVisibility();
+        // this.toggleVisibility();
         // this.setState({ currentUser: data.user });
       }
     } catch (err) {
@@ -50,17 +50,18 @@ class LikesSection extends React.Component {
   }
   async saveImage() {
     try {
-      let response = await fetch(
+      const { token } = localStorage;
+      const response = await fetch(
         `https://conduit.productionready.io/api/articles/${this.props.article.slug}/`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${this.props.currentUser.token}`,
+            Authorization: `Token ${token}`,
           },
         }
       );
-      let data = await response.json();
+      const data = await response.json();
       // console.log(data)
       if (!data.error) {
         this.setState({
