@@ -130,7 +130,7 @@ class Conduit extends React.Component {
   }
 
   render() {
-    // console.log(this.props.user.user);
+    console.log(this.props.isLoggedIn);
     return (
       <Router>
         <div className="container">
@@ -138,7 +138,7 @@ class Conduit extends React.Component {
             <h1>
               <Link to="/">conduit</Link>
             </h1>
-            {!this.props.isLoggedIn ? (
+            {!localStorage.token ? (
               <ul>
                 <li>
                   <NavLink activeClassName="nav-active" to="/" exact={true}>
@@ -156,7 +156,7 @@ class Conduit extends React.Component {
                   </NavLink>
                 </li>
               </ul>
-            ) : this.props.user ? (
+            ) : (
               <ul>
                 <li>
                   <NavLink activeClassName="nav-active" to="/" exact={true}>
@@ -186,7 +186,7 @@ class Conduit extends React.Component {
                   </NavLink>
                 </li>
               </ul>
-            ) : null}
+            )}
           </div>
           <Switch>
             <Route exact path="/">
@@ -208,7 +208,7 @@ class Conduit extends React.Component {
               <Editor />
             </Route>
             <Route path="/settings">
-              <Settings onLogout={this.onLogout} onUpdate={this.onUpdate} />
+              <Settings onUpdate={this.onUpdate} />
             </Route>
             <Route path="/profiles/:username">
               <Profile currentUser={this.props.user} onUpdate={this.onUpdate} />

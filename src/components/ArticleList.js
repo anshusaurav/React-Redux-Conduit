@@ -15,17 +15,12 @@ class ArticleList extends React.Component {
           {!articles
             ? this.Loaders()
             : articles.map((article, index) => {
-                return (
-                  <SmallArticle
-                    article={article}
-                    key={index}
-                    currentUser={this.props.currentUser}
-                  />
-                );
+                return <SmallArticle article={article} key={index} />;
               })}
         </Item.Group>
       </>
     );
   }
 }
+
 export default ArticleList;

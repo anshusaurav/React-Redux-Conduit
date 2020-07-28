@@ -109,8 +109,10 @@ section {
 }
 body {
   line-height: 1.5;
-  ::-webkit-scrollbar { display: none;}
-  overflow: -moz-scrollbars-none; 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  overflow: -moz-scrollbars-none;
 }
 
 ol,
@@ -133,7 +135,9 @@ table {
   border-spacing: 0;
 }
 * {
-  ::-webkit-scrollbar { display: none;}
+  ::-webkit-scrollbar {
+    display: none;
+  }
   overflow: -moz-scrollbars-none;
   box-sizing: border-box;
   line-height: 1.5;
@@ -160,20 +164,18 @@ table {
     grid-template-columns: repeat(auto-fit, minmax(144px, auto));
     justify-content: space-around;
     align-content: center;
-    li{
+    li {
       a {
         font-size: 16px;
         font-weight: 500;
         color: rgba(0, 0, 0, 0.469);
       }
     }
-    .nav-active{
-      
-        font-weight: bold;
-        background: rgba(189, 66, 216, 0.517);
-        padding: 4px 8px;
-        border-radius: 2px;
-     
+    .nav-active {
+      font-weight: bold;
+      background: #7092b3;
+      padding: 4px 6px;
+      border-radius: 2px;
     }
   }
 }
@@ -199,13 +201,13 @@ table {
 
 .hero-unsigned {
   text-align: center;
-  background-color: #5CB85C;
+  background-color: #5cb85c;
   padding: 0.5rem;
   h2 {
     font-size: 3.5rem;
     font-weight: 400;
   }
-  h5{
+  h5 {
     font-size: 2.5rem;
     font-weight: 400;
   }
@@ -233,15 +235,15 @@ table {
         font-family: "IBM Plex Serif", serif;
       }
     }
-    
-    .bottom{
-      .buttons{
+
+    .bottom {
+      .buttons {
         display: grid;
         grid-template-columns: repeat(20, 1fr);
         width: 100%;
         // align-content: center;
-        .button{
-          margin:0  0.25rem; 
+        .button {
+          margin: 0 0.25rem;
 
           margin-bottom: 0.25rem;
         }
@@ -354,13 +356,13 @@ table {
 .profile-div {
   .profile-articles {
     margin-top: 1.5rem;
-    .bottom{
-      .buttons{
+    .bottom {
+      .buttons {
         display: grid;
         grid-template-columns: repeat(20, 1fr);
         // align-content: center;
-        .button{
-          margin:0  0.25rem; 
+        .button {
+          margin: 0 0.25rem;
 
           margin-bottom: 0.25rem;
         }
@@ -397,11 +399,11 @@ body .ui.cards > .card {
 .small-article {
   border-bottom: 1px solid #f3f3f3;
   padding-bottom: 1.25rem;
-  .small-article-top{
+  .small-article-top {
     display: grid;
     grid-template-columns: 3fr 1fr;
   }
-  .article-like-section{
+  .article-like-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -419,7 +421,6 @@ body .ui.cards > .card {
 }
 .items {
   .small-article {
-
     .card {
       .content {
         padding: 0 1rem;

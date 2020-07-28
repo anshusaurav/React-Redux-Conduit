@@ -99,15 +99,9 @@ class ProfileArticle extends React.Component {
         menuItem: "My Articles",
         render: () => (
           <Tab.Pane>
-            <ArticleList
-              articles={sArticles}
-              currentUser={this.props.currentUser}
-            />
+            <ArticleList articles={sArticles} />
             ;
-            <Pagination
-              totalSize={sACount}
-              handlePagination={this.handlePagination}
-            />
+            <Pagination totalSize={sACount} />
           </Tab.Pane>
         ),
       },
@@ -115,10 +109,7 @@ class ProfileArticle extends React.Component {
         menuItem: "Favorited Articles",
         render: () => (
           <Tab.Pane>
-            <ArticleList
-              articles={fArticles}
-              currentUser={this.props.currentUser}
-            />
+            <ArticleList articles={fArticles} />
             <Pagination
               totalSize={fACount}
               handlePagination={this.handlePagination}

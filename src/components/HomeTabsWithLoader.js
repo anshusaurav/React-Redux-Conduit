@@ -28,7 +28,7 @@ class HomeTabsWithLoader extends React.Component {
     this.setState({ start: num * 10 });
   }
   async componentDidMount() {
-    const { isLoggedIn, isTagClicked, selectedTag } = this.props;
+    const { isTagClicked, selectedTag } = this.props;
     // console.log("isLoggedIn", isLoggedIn);
     const { start } = this.state;
     try {

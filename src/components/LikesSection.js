@@ -1,5 +1,9 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
+
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
+import { bindActionCreators } from "redux";
 class LikesSection extends React.Component {
   constructor(props) {
     super(props);
@@ -83,11 +87,11 @@ class LikesSection extends React.Component {
   }
   render() {
     const { favorited, favoritesCount } = this.state;
-    const { currentUser } = this.props;
+    const { user } = this.props;
 
     return (
       <section className="article-like-section">
-        {currentUser && favorited && (
+        {user && favorited && (
           <div className="like-btn-div">
             <Button
               content={favoritesCount}
@@ -99,7 +103,7 @@ class LikesSection extends React.Component {
             />
           </div>
         )}
-        {currentUser && !favorited && (
+        {user && !favorited && (
           <div className="like-btn-div">
             <Button
               content={favoritesCount}
@@ -111,7 +115,7 @@ class LikesSection extends React.Component {
             />
           </div>
         )}
-        {!currentUser && (
+        {!user && (
           <div className="like-btn-div">
             <Button
               content={favoritesCount}
@@ -126,4 +130,18 @@ class LikesSection extends React.Component {
     );
   }
 }
-export default LikesSection;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.user.token ? true : false,
+    user: state.user,
+    isUpdated: state.isUpdated,
+    tags: state.tags,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LikesSection);

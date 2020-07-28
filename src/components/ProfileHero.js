@@ -1,6 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Button } from "semantic-ui-react";
+
+import { connect } from "react-redux";
+import actions from "./../redux/actions";
+import { bindActionCreators } from "redux";
 class ProfileHero extends React.Component {
   constructor(props) {
     super(props);
@@ -51,7 +55,7 @@ class ProfileHero extends React.Component {
   }
   render() {
     const { username, bio, image, following } = this.props.profile;
-    const { currentUser } = this.props;
+    const currentUser = this.props.user;
 
     return (
       <section className="profile-hero-section">
@@ -99,4 +103,21 @@ class ProfileHero extends React.Component {
     );
   }
 }
-export default withRouter(ProfileHero);
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.user.token ? true : false,
+    user: state.user,
+    isUpdated: state.isUpdated,
+    tags: state.tags,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProfileHero));
