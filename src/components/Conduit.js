@@ -55,14 +55,12 @@ class Conduit extends React.Component {
         }
       );
       const data = await response.json();
-      console.log("TAGS", data);
-      // this.setState({ topTwentyTags: data.tags });
+      // console.log("TAGS", data);
       this.props.actions.fetchTags(data.tags);
     } catch (err) {
       console.error("Error:", err);
     }
     if (localStorage.token) {
-      // console.log("HERE");
       const { token } = localStorage;
       try {
         let response = await fetch(

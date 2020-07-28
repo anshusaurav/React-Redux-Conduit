@@ -37,9 +37,9 @@ class TagsAside extends React.Component {
     return arr.map((elem, index) => <TagsLoader key={index} />);
   };
   render() {
-    console.log(this.props);
-    const { tags } = this.props;
-    console.log(Boolean(tags));
+    console.log("PROPS IN ASIDE", this.props);
+    const { tags } = this.props.tags;
+    // console.log(Boolean(tags));
     return (
       <aside className="tags-section">
         <div className="tags-inner-div">
@@ -65,7 +65,7 @@ class TagsAside extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("TAGS: ", state.tags);
+  // console.log("STATE: ", state);
   return {
     isLoggedIn: state.user.token ? true : false,
     user: state.user,

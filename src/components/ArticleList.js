@@ -8,7 +8,6 @@ class ArticleList extends React.Component {
     return arr.map((elem, index) => <SmallArticleLoader key={index} />);
   };
   render() {
-    // this.Loaders();
     const { articles } = this.props;
     return (
       <>
